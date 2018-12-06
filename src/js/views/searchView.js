@@ -10,6 +10,20 @@ export const clearResults = () => {
     elements.searchResList.innerHTML = '';
 };
 
+const limitRecipeTitle = (title, limit = 17) => {
+    const newTitle = [];
+    if (title.length > limit) {
+        title.split(' ').reduce((acc, cur) => {
+            if (acc + cur.length <= limit) {
+                newTitle.push(cur);
+            }
+            return acc + cur.length;
+        }, 0);
+        return `${newTitle.join(' ')} ...`;
+    }
+    return title;
+};
+
 const renderRecipe = recipe => {
     const markup = `
     <li>
@@ -18,7 +32,7 @@ const renderRecipe = recipe => {
                 <img src="${recipe.image_url}" alt="${recipe.title}">
             </figure>
             <div class="results__data">
-                <h4 class="results__name">${recipe.title}</h4>
+                <h4 class="results__name">${limitRecipeTitle(recipe.title)}</h4>
                 <p class="results__author">${recipe.publisher}</p>
             </div>
         </a>
@@ -30,12 +44,3 @@ const renderRecipe = recipe => {
 export const renderResults = recipes => {
     recipes.forEach(renderRecipe);
 };
-
-// f2f_url: "http://food2fork.com/view/47025"
-// image_url: "http://static.food2fork.com/pestoa0e7.jpg"
-// publisher: "The Pioneer Woman"
-// publisher_url: "http://thepioneerwoman.com"
-// recipe_id: "47025"
-// social_rank: 100
-// source_url: "http://thepioneerwoman.com/cooking/2011/06/pasta-with-pesto-cream-sauce/"
-// title: "Pasta with Pesto Cream Sauce"
